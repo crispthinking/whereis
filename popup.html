@@ -8,23 +8,32 @@
     </head>
     
     <body>
-        <template id="result_template">
+        
+        <template id="result_table">
+            <div>
+                <h3 class="source">Source Name</h3>
+                <table class="results_table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </table>
+            </div>
+        </template>
+        
+        <template id="result_row">
             <tr class="result">
-                <td class="source"></td>
-                <td class="info"></td>
+                <td class="name"></td>
+                <td class="value"></td>
             </tr>
         </template>
         
+
         <h1>WhereIs</h1>
         <div id="results">
             <h2 id="site_name"></h2>
-            <table id = "results_table">
-                <tr>
-                    <th>Source</th>
-                    <th>Info</th>
-                </tr>
-            </table>
         </div>
+        
         <script src="./popup.js" type="module"></script>
     </body>
 </html>

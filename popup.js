@@ -1,9 +1,9 @@
-import { whereis } from "./whereis";
-
 async function main() {
     const currentTab = await getCurrentTab();
     const url = currentTab.url;
-    data = whereis(url);
+    const data = await whereis(url);
+    console.log(data);
+    await addResults(data);
 }
 
 async function getCurrentTab() {
@@ -13,12 +13,98 @@ async function getCurrentTab() {
 }
 
 async function addResults(results) {
-    const template = document.getElementById("result_template");
-    Object.keys(results).forEach(async (result) => {
-        await addResult(result, template);
+    const table_template = document.getElementById("result_table");
+    const row_template = document.getElementById("result_row");
+
+    console.log(results);
+    results.forEach(async (result) => {
+        await addResult(result, table_template, row_template);
     })
 }
 
-async function addResult(result, template) { }
+async function addResult(result, table_template, row_template) {
+    const table = table_template.content.firstElementChild.cloneNode(true);
+
+    console.log(result);
+    console.log(table);
+
+    table.querySelector(".source").textContent = result.source;
+    await addFieldsToTable(result.fields, table, row_template);
+
+    document.getElementById("results").appendChild(table);
+}
+
+async function addFieldsToTable(fields, table, row_template) {
+    fields.forEach(async (field) => {
+        await addFieldToTable(field, table, row_template)
+    })
+}
+
+async function addFieldToTable(field, table, row_template) {
+    console.log(field)
+    console.log(row_template)
+    const row = row_template.content.firstElementChild.cloneNode(true);
+    row.querySelector(".name").textContent = field.name;
+    row.querySelector(".value").textContent = field.value;
+    table.querySelector(".results_table").appendChild(row);
+}
+
+
+const demo_data = [
+    {
+        "source": "whois",
+        "input": "https://bbc.co.uk/",
+        "fields": [
+            {
+                "name": "IP Address",
+                "value": "1.1.1.1"
+            },
+            {
+                "name": "Registrar",
+                "value": "RegisterMe"
+            }
+        ]
+    },
+    {
+        "source": "maxmind",
+        "input": "1.1.1.1",
+        "fields": [
+            {
+                "name": "Country",
+                "value": "United Kingdom"
+            },
+            {
+                "name": "Region",
+                "value": "London"
+            }
+        ]
+    }
+]
+
+
+async function whereis(url) {
+    var whois = getWhoIsData(url);
+    console.log(whois);
+    return demo_data;
+}
+
+async function getWhoIsData(url) {
+    fetch('https://who.is/whois/' + url, {
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(function (response) { return response.text(); })
+}
+
+async function getGeoIpData(ipAdress, token) {
+    fetch('https://geoip.maxmind.com/geoip/v2.1/city/' + ipAdress + '?demo=1', {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(function (response) { return response.json(); })
+}
+
+
 
 await main();
