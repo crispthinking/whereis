@@ -15,9 +15,9 @@ async function getCurrentTab() {
 async function addResults(results) {
     const table_template = document.getElementById("result_table");
     const row_template = document.getElementById("result_row");
-
+    document.getElementById("site_name").textContent = results.domain
     console.log(results);
-    results.forEach(async (result) => {
+    results.results.forEach(async (result) => {
         await addResult(result, table_template, row_template);
     })
 }
@@ -28,7 +28,7 @@ async function addResult(result, table_template, row_template) {
     console.log(result);
     console.log(table);
 
-    table.querySelector(".source").textContent = result.source;
+    table.querySelector(".source").textContent = `${result.source}: ${result.input}`;
     await addFieldsToTable(result.fields, table, row_template);
 
     document.getElementById("results").appendChild(table);
@@ -50,46 +50,50 @@ async function addFieldToTable(field, table, row_template) {
 }
 
 
-const demo_data = [
-    {
-        "source": "whois",
-        "input": "https://bbc.co.uk/",
-        "fields": [
-            {
-                "name": "IP Address",
-                "value": "1.1.1.1"
-            },
-            {
-                "name": "Registrar",
-                "value": "RegisterMe"
-            }
-        ]
-    },
-    {
-        "source": "maxmind",
-        "input": "1.1.1.1",
-        "fields": [
-            {
-                "name": "Country",
-                "value": "United Kingdom"
-            },
-            {
-                "name": "Region",
-                "value": "London"
-            }
-        ]
-    }
-]
+const demo_data = {
+    "domain": "bbc.co.uk",
+    "results": [
+        {
+            "source": "whois",
+            "input": "bbc.co.uk",
+            "fields": [
+                {
+                    "name": "IP Address",
+                    "value": "1.1.1.1"
+                },
+                {
+                    "name": "Registrar",
+                    "value": "RegisterMe"
+                }
+            ]
+        },
+        {
+            "source": "maxmind",
+            "input": "1.1.1.1",
+            "fields": [
+                {
+                    "name": "Country",
+                    "value": "United Kingdom"
+                },
+                {
+                    "name": "Region",
+                    "value": "London"
+                }
+            ]
+        }
+    ]
+}
 
 
 async function whereis(url) {
-    var whois = getWhoIsData(url);
+    var domain = (new URL(url)).hostname;
+    var whois = await getWhoIsData(domain);
     console.log(whois);
     return demo_data;
 }
 
 async function getWhoIsData(url) {
-    fetch('https://who.is/whois/' + url, {
+    return await fetch('https://who.is/whois/' + url, {
         headers: {
             'Accept': 'application/json'
         }
@@ -97,7 +101,7 @@ async function getWhoIsData(url) {
 }
 
 async function getGeoIpData(ipAdress, token) {
-    fetch('https://geoip.maxmind.com/geoip/v2.1/city/' + ipAdress + '?demo=1', {
+    return await fetch('https://geoip.maxmind.com/geoip/v2.1/city/' + ipAdress + '?demo=1', {
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token
