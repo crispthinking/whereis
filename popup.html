@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./popup.css" />
+    </head>
+    
+    <body>
+        <template id="result_template">
+            <tr class="result">
+                <td class="source"></td>
+                <td class="info"></td>
+            </tr>
+        </template>
+        
+        <h1>WhereIs</h1>
+        <div id="results">
+            <h2 id="site_name"></h2>
+            <table id = "results_table">
+                <tr>
+                    <th>Source</th>
+                    <th>Info</th>
+                </tr>
+            </table>
+        </div>
+        <script src="./popup.js" type="module"></script>
+    </body>
+</html>
