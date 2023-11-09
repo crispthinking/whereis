@@ -1,6 +1,7 @@
 demo_data = [
     {
         "source": "whois",
+        "input": "https://bbc.co.uk/",
         "fields": [
             {
                 "name": "IP Address",
@@ -14,6 +15,7 @@ demo_data = [
     },
     {
         "source": "maxmind",
+        "input": "1.1.1.1",
         "fields": [
             {
                 "name": "Country",
