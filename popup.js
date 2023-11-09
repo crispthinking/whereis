@@ -1,6 +1,40 @@
+demo_data = [
+    {
+        "source": "whois",
+        "fields": [
+            {
+                "name": "IP Address",
+                "value": "1.1.1.1"
+            },
+            {
+                "name": "Registrar",
+                "value": "RegisterMe"
+            }
+        ]
+    },
+    {
+        "source": "maxmind",
+        "fields": [
+            {
+                "name": "Country",
+                "value": "United Kingdom"
+            },
+            {
+                "name": "Region",
+                "value": "London"
+            }
+        ]
+    }
+]
+
+
 async function main() {
     const currentTab = await getCurrentTab();
     const url = currentTab.url;
+}
+
+async function whereis(url) {
+    return demo_data
 }
 
 async function getCurrentTab() {
