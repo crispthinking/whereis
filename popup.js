@@ -16,7 +16,9 @@ async function addResults(results) {
     const table_template = document.getElementById("result_table");
     const row_template = document.getElementById("result_row");
     document.getElementById("site_name").textContent = results.domain
+
     console.log(results);
+
     results.results.forEach(async (result) => {
         await addResult(result, table_template, row_template);
     })
@@ -43,6 +45,7 @@ async function addFieldsToTable(fields, table, row_template) {
 async function addFieldToTable(field, table, row_template) {
     console.log(field)
     console.log(row_template)
+
     const row = row_template.content.firstElementChild.cloneNode(true);
     row.querySelector(".name").textContent = field.name;
     row.querySelector(".value").textContent = field.value;
@@ -88,7 +91,9 @@ const demo_data = {
 async function whereis(url) {
     var domain = (new URL(url)).hostname;
     var whois = await getWhoIsData(domain);
+
     console.log(whois);
+
     return demo_data;
 }
 

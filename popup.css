@@ -1,0 +1,13 @@
+body {
+    width: 20rem;
+}
+
+table.results_table {
+    width: 80%;
+    text-align: left;
+}
+
+th,
+td {
+    border-bottom: 1px solid #ddd;
+}
