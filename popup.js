@@ -1,47 +1,13 @@
-demo_data = [
-    {
-        "source": "whois",
-        "input": "https://bbc.co.uk/",
-        "fields": [
-            {
-                "name": "IP Address",
-                "value": "1.1.1.1"
-            },
-            {
-                "name": "Registrar",
-                "value": "RegisterMe"
-            }
-        ]
-    },
-    {
-        "source": "maxmind",
-        "input": "1.1.1.1",
-        "fields": [
-            {
-                "name": "Country",
-                "value": "United Kingdom"
-            },
-            {
-                "name": "Region",
-                "value": "London"
-            }
-        ]
-    }
-]
-
+import { whereis } from "./whereis";
 
 async function main() {
     const currentTab = await getCurrentTab();
     const url = currentTab.url;
-}
-
-async function whereis(url) {
-    return demo_data
+    data = whereis(url);
 }
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
-    // `tab` will either be a `tabs.Tab` instance or `undefined`.
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
 }
